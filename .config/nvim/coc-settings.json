@@ -1,0 +1,39 @@
+{
+    "python.venvFolders": [".virtualenvs"],
+    "languageserver": {
+        "ccls": {
+            "command": "ccls",
+            "filetypes": [
+                "c",
+                "cpp",
+                "objc",
+                "objcpp"
+            ],
+            "rootPatterns": [
+                ".ccls",
+                "compile_commands.json",
+                ".vim/",
+                ".git/",
+                ".hg/"
+            ],
+            "initializationOptions": {
+                "cache": {
+                    "directory": "/tmp/ccls"
+                }
+            }
+        }
+    },
+    "latex.lint.onChange": true,
+    "latex.build.args": [
+        "%f",
+        "-pdf",
+        "-outdir=build",
+        "-interaction=nonstopmode",
+        "-synctex=1",
+        "-pv"
+    ],
+    "latex.build.outputDirectory": "build",
+    "latex.build.forwardSearchAfter": true,
+    "latex.forwardSearch.executable": "/Applications/Skim.app/Contents/SharedSupport/displayline",
+    "latex.forwardSearch.args": ["--synctex-forward", "-g", "%l", "%p", "%f"]
+}
