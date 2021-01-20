@@ -75,6 +75,10 @@ Plug 'vim-airline/vim-airline'
 " Testing new color theme
 "Plug 'chuling/ci_dark'
 " Plug 'phanviet/vim-monokai-pro'
+
+" Markdown preview generator
+" Requirement: brew install grip
+Plug 'JamshedVesuna/vim-markdown-preview'
 call plug#end()
 
 " =============================================================================
@@ -112,8 +116,12 @@ set smartindent
 " -----------------------------------------------------------------------------
 " Uncomment to disable softwraps.
 " set nowrap
+" Proper search
+set incsearch
+set ignorecase
 " Case sensitive searching if you use capital letters else insensitive.
 set smartcase
+set gdefault
 " -----------------------------------------------------------------------------
 " Backup related settings
 " -----------------------------------------------------------------------------
@@ -145,7 +153,9 @@ highlight ColorColumn ctermbg=0 guibg=lightgrey
 set list
 "set listchars=
 "set listchars+=tab:› \
-set listchars=tab:»\ ,trail:·
+"set listchars=tab:»\ ,trail:·
+"set listchars=nbsp:¬,tab:»\ ,extends:»,precedes:«,trail:·
+set listchars=nbsp:¬,tab:»\ ,extends:»,precedes:«,space:·
 "set listchars+=trail:·
 " -----------------------------------------------------------------------------
 
@@ -156,6 +166,19 @@ set listchars=tab:»\ ,trail:·
 "  Color Scheme
 " -----------------------------------------------------------------------------
 " Seems to be important for color schemes.
+" deal with colors
+"if !has('gui_running')
+    "set t_Co=256
+"endif
+"if (match($TERM, "-256color") != -1) && (match($TERM, "screen-256color") == -1)
+    ""screen doesn not (yet) support truecolor
+    "set termguicolors
+"endif
+if &term =~ '256color'
+    "disable Background color erase (BCE) so that color schemes
+    "render properly when inside 2560color GNU screen
+    set t_ut=
+endif
 if has ('termguicolors')
     set termguicolors
 endif
@@ -201,6 +224,11 @@ let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
 " -----------------------------------------------------------------------------
 
+" -----------------------------------------------------------------------------
+"  Markdown plugin
+" -----------------------------------------------------------------------------
+let vim_markdown_preview_github=1
+let vim_markdown_preview_browser='Firefox'
 " -----------------------------------------------------------------------------
 " Wrapping options
 " -----------------------------------------------------------------------------
@@ -327,7 +355,8 @@ let g:coc_global_extensions = [
     \'coc-java',
     \'coc-cmake',
     \'coc-texlab',
-    \'coc-python'
+    \'coc-python',
+    \'coc-tsserver'
   \ ]
 
 "  CoC settings are in the file: ~./config/nvim/coc-settings.json
@@ -402,12 +431,13 @@ autocmd BufRead *.tex set filetype=tex
 autocmd BufRead *.trm set filetype=c
 autocmd BufRead *.xlsx.axlsx set filetype=ruby
 " Script plugins
-autocmd Filetype html,xml,xsl,php source ~/.config/nvim/scripts/closetag.vim
+" autocmd Filetype html,xml,xsl,php source ~/.config/nvim/scripts/closetag.vim
 " Shorted text-width for latex files
 autocmd Filetype markdown setlocal spell tw=72 colorcolumn=73
 
 " latex settings.
-autocmd Filetype tex setlocal spell tw=72 colorcolumn=73
+"autocmd Filetype tex setlocal spell tw=72 colorcolumn=73
+autocmd Filetype tex setlocal spell tw=70 colorcolumn=71
 " coc-texlab settings
 autocmd Filetype tex nmap <C-B> :CocCommand latex.Build
 
